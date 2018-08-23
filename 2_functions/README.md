@@ -18,7 +18,11 @@ There are many benefits for doing this:
 
 - cProfile shows how long each function takes.
 
+    `python -m cProfile -s time md_run.py`
+
 - Argument parser implemented.
+
+- Tests with `pytest -v`
 
 ## Files in this folder
 
@@ -28,11 +32,9 @@ There are many benefits for doing this:
 
     Notes:
 
-    - Testing
+    - main() function
 
-    - In-line comments
-
-    - Numpy for numerical operations
+    - Function doc string in Numpy format
 
 2. `md_analysis.py`
 
