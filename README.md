@@ -24,7 +24,7 @@ We will implement a molecular dynamics (MD) program using each of the above thre
 
 - Python 3.6
 - Numpy
-- Matplotlib
+- pytest
 
 ## Folder structure
 
@@ -33,3 +33,9 @@ Three top folders corresponds to the three types of python programs.
 In each top folder, there will be a README.md for some notes.
 
 The rest of the files and folders in each top folder shows an example structure of the type.
+
+## Topics
+
+- version control (git)
+
+- conda env

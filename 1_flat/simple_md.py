@@ -31,8 +31,8 @@ n_steps = 10000
 noa = len(coords)
 # LJ Force parameters
 sigma = 0.9
-epsilon = 1.0
-# traj as a list of frames
+epsilon = 20.0
+# traj contains the list of frames
 traj = []
 # open an xyz file for writing the coordinates
 with open('traj.xyz', 'w') as outfile:
@@ -53,7 +53,7 @@ with open('traj.xyz', 'w') as outfile:
                 forces[i] += f * dc
                 forces[j] -= f * dc
         # use the force to update the coordinates
-        mass = 0.1 # mass of each atom
+        mass = 2.0 # mass of each atom (2.0 for He)
         dt = 0.001 # time step
         dr = -forces / mass * dt**2
         # save a copy of current coords
@@ -82,5 +82,5 @@ print(f"MD Simulation of {n_steps} steps finished.")
 traj = np.array(traj)
 # find the first frame that the cube destructs
 max_move = np.abs(traj - traj[0]).max(axis=(1,2))
-first_frame = (max_move > 0.1).argmax() * 100
-print(f"Found cube destructs at frame ~ {first_frame}")
+break_frame = (max_move > 0.1).argmax() * 100
+print(f"Found cube destructs at frame ~ {break_frame}")
