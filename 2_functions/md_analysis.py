@@ -58,3 +58,6 @@ def main():
     break_frame = find_break_frame(traj)
 
     print(f"Found cube destructs at frame ~ {break_frame}")
+
+if __name__ == '__main__':
+    main()
