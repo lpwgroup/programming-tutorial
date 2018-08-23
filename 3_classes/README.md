@@ -22,17 +22,23 @@ Useful links:
 
     `mdsim/md_simulation.py`: The `MDSimulation` class
 
-    `mdsim/md_force.py`: The `MDForce` class
+    `mdsim/force/`: The `force` package
 
-    `mdsim/md_integrator.py`: The `MDIntegrator` class
+    `mdsim/integrator/`: The `integrator` package
 
     `mdsim/md_trajectory.py`: The `MDTrajectory` class
 
+    `mdsim/molecule.py`: The `Molecule` class
+
     `mdsim/__init__.py`: required for import
 
-2. `run_mdsim.py`
+2. `examples/run_mdsim.py`
 
     The script running a simulation utilizing the `mdsim` package.
+
+3. `setup.py`
+
+    The setup script that enables installation by `python setup.py install`
 
 
 ## Requirements
