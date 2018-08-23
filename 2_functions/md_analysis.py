@@ -36,7 +36,7 @@ def find_break_frame(traj, thresh=0.1):
     thresh: float
         The threshold for detecting the geometry change
 
-    Retunes
+    Returns
     -------
     break_frame: int
         The index of the first frame that the geometry changes

@@ -101,7 +101,7 @@ def numpy_LJ_force(coords, epsilon=1.0, sigma=1.0):
 
 ELEM_MASS = {'He': 2}
 
-def verlet_intergrate(forcefunc, coords, elems, nsteps=10000, dt=0.001, outfile='traj.xyz', verbose=True):
+def verlet_intergrate(forcefunc, coords, elems, nsteps=10000, interval=100, dt=0.001, outfile='traj.xyz', verbose=True):
     """ Run MD simulation with Verlet intergration.
 
     Parameters
@@ -114,6 +114,8 @@ def verlet_intergrate(forcefunc, coords, elems, nsteps=10000, dt=0.001, outfile=
         List of elements for all atoms
     nsteps: int
         Number to total steps in MD simulation
+    interval: int
+        Step interval for saving each frame
     step_length: float
         Time length of each MD step
     outfile: str
@@ -131,7 +133,7 @@ def verlet_intergrate(forcefunc, coords, elems, nsteps=10000, dt=0.001, outfile=
     prev_coords = coords.copy()
     masses = np.array([ELEM_MASS[e] for e in elems])
     with open(outfile,'w') as outputfile:
-        for i_frame in range(nsteps):
+        for i_step in range(nsteps):
             # compute force
             force = forcefunc(coords, sigma=0.9, epsilon=20.0)
             dr = -force / masses[:, np.newaxis] * dt**2
@@ -139,13 +141,14 @@ def verlet_intergrate(forcefunc, coords, elems, nsteps=10000, dt=0.001, outfile=
             tmp = coords.copy()
             coords = 2 * coords + dr - prev_coords
             prev_coords = tmp
-            if i_frame % 100 == 0:
+            if i_step % interval == 0:
+                i_frame = int(i_step / interval)
                 # append the coords to traj list
                 traj.append(coords.copy())
                 # write the coordinate to file in xyz format
                 write_xyz_frame(coords, elems, i_frame, outputfile)
                 if verbose:
-                    print(f'{i_frame:6d} steps finished', end='\r', flush=True)
+                    print(f'{i_step:6d} steps finished', end='\r', flush=True)
     return np.array(traj, dtype=float)
 
 def write_xyz_frame(coords, elems, frame_number, outputfile):
@@ -162,7 +165,7 @@ def main():
     parser.add_argument('-n', '--num_steps', type=int, default=10000, help="Number of intergration steps.")
     parser.add_argument('-f', '--force_function', type=str, choices=['ref', 'numpy'], default='ref', help="Function to compute force")
     parser.add_argument('-o', '--outfile', type=str, default='traj.xyz', help='Name of output trajectory file')
-    parser.add_argument('--analysis', action='store_true', help='Flag to enable analysis following simulation')
+    parser.add_argument('--analyze', action='store_true', help='Flag to enable analysis following simulation')
     args = parser.parse_args()
 
     # step 1: create molecule
@@ -179,9 +182,9 @@ def main():
     traj = verlet_intergrate(ffunc, coords, elems, nsteps=args.num_steps, outfile=args.outfile, verbose=True)
 
     # step 4: analyze trajectory
-    if args.analysis:
+    if args.analyze:
         from md_analysis import find_break_frame
-        break_frame = find_break_frame(traj) * 100
+        break_frame = find_break_frame(traj)
         print(f"Found cube destructs at frame ~ {break_frame}")
 
 if __name__ == '__main__':

@@ -25,6 +25,7 @@ We will implement a molecular dynamics (MD) program using each of the above thre
 - Python 3.6
 - Numpy
 - pytest
+- setuptools
 
 ## Folder structure
 

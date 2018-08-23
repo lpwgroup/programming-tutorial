@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-
+import numpy as np
 import md_run
 import md_analysis
-import numpy as np
 
 def test_create_molecule():
     for na in range(1,5):
