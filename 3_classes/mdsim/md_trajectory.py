@@ -18,6 +18,13 @@ class MDTrajectory:
     def noa(self):
         return len(self.elems)
 
+    @property
+    def length(self):
+        return len(self._xyz)
+
+    def __len__(self):
+        return len(self._xyz)
+
     def __init__(self, elems):
         self._xyz = []
         self.elems = elems

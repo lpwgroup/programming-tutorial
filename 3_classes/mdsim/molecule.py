@@ -29,11 +29,13 @@ class Molecule:
 
     def set_coords(self, coords):
         """ Set coordinates of molecule """
+        coords = np.array(coords, dtype=float)
         assert coords.shape == (self.noa, 3)
         self.coords = coords
 
     def set_force(self, force):
         """ Set force of molecule """
+        force = np.array(force, dtype=float)
         assert force.shape == (self.noa, 3)
         self.force = force
 

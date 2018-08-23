@@ -14,6 +14,10 @@ class MDSimulation:
     def trajectory(self):
         return self._traj
 
+    @property
+    def current_step(self):
+        return self._step
+
     def __init__(self, molecule, ff, integrator, interval=100, verbose=False):
         assert isinstance(molecule, Molecule)
         assert isinstance(ff, MDForce)
