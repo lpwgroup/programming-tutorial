@@ -1,27 +1,25 @@
 import pytest
 import numpy as np
-
-from mdsim.md_force import MDForce, LJForce
+from mdsim.force import MDForce, LJForce
 
 def test_init():
-    f = MDForce()
+    f = LJForce()
+    assert isinstance(f, LJForce)
+    # LJForce instance should also be an MDForce instance
     assert isinstance(f, MDForce)
-    ljf = LJForce()
-    assert isinstance(ljf, LJForce)
-    assert isinstance(ljf, MDForce)
 
 def test_set_params():
-    f = MDForce()
-    f.set_params(a=1, b=2)
-    assert f.params['a'] == 1
-    assert f.params['b'] == 2
+    f = LJForce()
+    f.set_params(sigma=0.9, epsilon=1.0)
+    assert f.params['sigma'] == 0.9
+    assert f.params['epsilon'] == 1.0
     # directly overwrite f.params should not be allowed
     with pytest.raises(AttributeError):
         f.params = {'a': 1}
 
 def test_get_params():
-    f = MDForce()
-    f.set_params(a=1, b=2)
+    f = LJForce()
+    f.set_params(sigma=0.9, epsilon=1.0)
     assert f.get_params() == f.params
 
 def test_compute_force_ref():
@@ -39,15 +37,10 @@ def test_compute_force_ref():
     assert np.allclose(ref_force, f0)
 
 def test_compute_force():
-    f = MDForce()
-    f.set_params(sigma=0.9, epsilon=1.0)
-    coords = np.array([[0,0,0], [0,0,1], [0,1,0], [1,0,0]])
-    # compute force is not implemented in parent class
-    with pytest.raises(NotImplementedError):
-        f.compute_force(coords)
-    # test LJForce compute_force against compute_force_ref
+    """ test LJForce compute_force against compute_force_ref """
     f = LJForce()
     f.set_params(sigma=0.9, epsilon=1.0)
+    coords = np.array([[0,0,0], [0,0,1], [0,1,0], [1,0,0]])
     for _ in range(10):
         rand_coords = coords + 0.5 * np.random.random(coords.shape)
         force = f.compute_force(rand_coords)

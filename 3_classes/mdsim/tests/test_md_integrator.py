@@ -1,5 +1,6 @@
 import numpy as np
-from mdsim.md_integrator import MDIntegrator,
+from mdsim.integrator import MDIntegrator
 
 def test_init():
-    integrator = MDIntegrator
+    integrator = MDIntegrator()
+    assert isinstance(integrator, MDIntegrator)
