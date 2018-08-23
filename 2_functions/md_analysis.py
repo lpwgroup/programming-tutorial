@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 def load_xyz_traj(filename):
